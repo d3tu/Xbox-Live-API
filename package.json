@@ -1,6 +1,6 @@
 {
-  "name": "Xbox-Live-API",
-  "version": "0.0.1",
+  "name": "xbox-live-api",
+  "version": "1.0.0",
   "description": "Easy and simple API for xbox.",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kayke981/Xbox-Live-API"
+    "url": "git+http//github.com/Kayke981/Xbox-Live-API"
   },
   "keywords": [
     "xbox-live-api"
   ],
-  "author": "Kayake",
+  "author": "kayke293",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1"
-  }
+  },
+  "devDependencies": {}
 }
