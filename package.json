@@ -1,6 +1,6 @@
 {
   "name": "xbox-live-api",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Easy and simple API for xbox.",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "keywords": [
     "xbox-live-api"
   ],
-  "author": "kayke293",
+  "author": "kayake.",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1"
