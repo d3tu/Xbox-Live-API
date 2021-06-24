@@ -1,6 +1,11 @@
 # Xbox-Live-API
 Easy and simple API for xbox.
 
+
+# How get api token and app token?
+
+go to https://xbl.io/ and log in to some account on Xbox, then press menu, profile and go down a little, and api key will appear, and press create, then go up a little and go to apps then click new app, put anything, in Chave Publica put anything, like: 1772683 
+
 # How it works? 
 
 ```js
