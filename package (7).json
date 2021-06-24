@@ -1,0 +1,25 @@
+{
+  "name": "xb-live-api",
+  "version": "0.0.5",
+  "description": "Easy and simple API for xbox.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kayke981/Xbox-Live-API.git"
+  },
+  "keywords": [
+    "xbox-live-api"
+  ],
+  "author": "kayake.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kayke981/Xbox-Live-API/issues"
+  },
+  "homepage": "https://github.com/kayke981/Xbox-Live-API#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
