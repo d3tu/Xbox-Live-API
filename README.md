@@ -3,7 +3,7 @@ Easy and simple API for xbox.
 
 # How to get API token and App token 
 
-go to https://xbl.io/ and log in to some account on Xbox, then press menu, profile and go down a little, and api key will appear, and press create, then go up a little and go to apps then click new app, put anything, in Chave Publica put anything, like: 1772683 
+go to https://xbl.io/ and log in to some account on Xbox, then press menu, profile and go down a little, and api key will appear, and press create, then go up a little and go to apps then click new app, put anything, in Public Key put anything, like: 1772683 
 
 
 # How it works? 
@@ -92,3 +92,7 @@ client.addFriend('xuid')
 `favoriteFriend(xuid)` -> **put one of your friends in the favorites list**
 
 `postConversations(xuid, message)` -> **send a message**
+
+`getParty()` -> **get a party**
+
+`postParty(sesionid, xuid, name)` -> **send invite party, If using this in your application first call "getParty()" to get a list of sessions (usually only 1) then call this endpoint to invite players to join the session. SessionName below is a value returned from getParty()**
