@@ -1,4 +1,4 @@
-const n = require('node-fetch');
+const fetch = require('node-fetch');
 
 /**
  * @param {{
@@ -13,228 +13,108 @@ module.exports = class XboxAPI {
 		this.apitoken = options.apiToken;
 		this.apptoken = options.appToken || 'pt-br';
 		this.lang = options.lang;
-
+		
 		if (!this.apitoken) throw new Error('Provide a api_token');
 		if (!this.apptoken) throw new Error('Provide a app_token');
 	}
-	// get
-	async account(number) {
-		if (number) {
-		return await n(`https://xbl.io/api/v2/account/${number}`, {
-			"headers": {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-		});
-		} else {
-			return await n(`https://xbl.io/api/v2/account/`, {
-			"headers": {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
-		}
+	
+	// Get methods
+	
+	account(number) {
+		return number ? this._get(`https://xbl.io/api/v2/account/${number}`) : this._get(`https://xbl.io/api/v2/account/`);
 	}
-	async addFriend(number) {
+	
+	addFriend(number) {
 		if (!number) throw new Error('Provide a xuid');
-
-		return await n(`https://xbl.io/api/v2/friends/add/${number}`, {
-			"headers": {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-		});
+		return this._get(`https://xbl.io/api/v2/friends/add/${number}`);
 	}
 	
-async removeFriend(xuid) {
-	if(!xuid) throw new Error('Provide a xuid')
+  removeFriend(xuid) {
+	  if(!xuid) throw new Error('Provide a xuid');
+  	return this._get(`https://xbl.io/api/v2/friends/remove/${xuid}`);
+  }
 	
-	return await n(`https://xbl.io/api/v2/friends/remove/${xuid}`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-		});
-}
-	
-	async friends() {
-		return await n('https://xbl.io/api/v2/friends', {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-		});
+	friends() {
+		return this._get('https://xbl.io/api/v2/friends');
 	}
-	async searchFriend(string) {
+	
+	searchFriend(string) {
 		if (!string) throw new Error('Provide a gamertag');
-		return await n(`https://xbl.io/api/v2/friends/search?gt=${string}`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-		});
+		return this._get(`https://xbl.io/api/v2/friends/search?gt=${string}`);
 	}
 	
-	async recentPlayers() {
-		return await n(`https://xbl.io/api/v2/recent-players`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-		});
+	recentPlayers() {
+		return this._get(`https://xbl.io/api/v2/recent-players`);
 	}
 	
-	async precense(xuid) {
-		if(xuid) {
-			return await n(`https://xbl.io/api/v2/${xuid}/precense`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
-		} else {
-			return await n(`https://xbl.io/api/v2/precense`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
-		}
+	precense(xuid) {
+		return xuid ? this._get(`https://xbl.io/api/v2/${xuid}/precense`) : this._get(`https://xbl.io/api/v2/precense`);
 	}
 	
-	async conversationsRequest() {
-		return await n(`https://xbl.io/api/v2/conversations/request`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
+	conversationsRequest() {
+		return this._get(`https://xbl.io/api/v2/conversations/request`);
 	}
 	
-	async getConversations(xuid) {
-		if(xuid) {
-			return await n(`https://xbl.io/api/v2/conversations/${xuid}`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				'Accept-Language': String(this.lang)
-			}
-			});
-		} else {
-			return await n(`https://xbl.io/api/v2/conversations`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
-		}
+	getConversations(xuid) {
+		return xuid ? this._get(`https://xbl.io/api/v2/conversations/${xuid}`) : this._get(`https://xbl.io/api/v2/conversations`);
 	}
 	
-	async getParty() {
-		
-		return await n(`https://xbl.io/api/v2/party`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
+	getParty() {
+		return this._get(`https://xbl.io/api/v2/party`);
 	}
 	
-	
-async achievimentsPlayer(xuid) {
-		if(!xuid) throw new Error('Provide a xuid')
-		
-		return await n(`https://xbl.io/api/v2/achieviments/player/${xuid}`, {
-			method: 'get',
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang)
-			}
-			});
+  achievimentsPlayer(xuid) {
+		if (!xuid) throw new Error('Provide a xuid');
+		return this._get(`https://xbl.io/api/v2/achieviments/player/${xuid}`);
 	}
 	
-	// Post
+	// Post methods
 	
-	async favoriteFriend(xuid) {
+	favoriteFriend(xuid) {
 		if (!xuid) throw new Error('provide a xuid');
-		return await n('https://xbl.io/api/v2/friends/favorite', {
-			method: 'post',
-			body: `{"xuid": "${xuid}"}`,
-			headers: {
-				'X-Authorization': String(this.apitoken),
-				'X-Contract': String(this.apptoken),
-				"Accept": ['application/json', 'application/xml'],
-				'Accept-Language': String(this.lang),
-			},
-
+		return this._post('https://xbl.io/api/v2/friends/favorite', {
+			xuid
 		});
 	}
-	async postConversations(number, string) {
-	if(!number && string) throw new Error('Provide xuid and a message')
-return await n('https://xbl.io/api/v2/conversations', {
-   method: 'post',
-   body: `{"xuid": "${number}", "message": "${string}"}`,
-   headers: {
-        "x-Authorization": String(this.apitoken),
-        'x-Contract': String(this.apptoken),
-        'Accept': ['application/json', 'application/xml'],
-        'Accept-Language': String(this.lang),
-   }
-});
-}
-
-async postParty(id, xuid, name) {
-
-	if(!id) throw new Error('Provide a sessionid, If using this in your application first call "getParty()" to get a list of sessions (usually only 1) then call this endpoint to invite players to join the session. SessionName below is a value returned from getParty()')
 	
-	if(!xuid) throw new Error('Provide a xuid')
+	postConversations(xuid, message) {
+  	if (!xuid && message) throw new Error('Provide xuid and a message');
+    return this._post('https://xbl.io/api/v2/conversations', {
+    	xuid, message
+    });
+  }
 
-	return await n(`https://xbl.io/api/v2//party/invite/${id}`, {
-		method: 'post',
-   body: `{"xuid": "${xuid}", "sessionName": "${name}"}`,
-   headers: {
-        "x-Authorization": String(this.apitoken),
-        'x-Contract': String(this.apptoken),
-        'Accept': ['application/json', 'application/xml'],
-        'Accept-Language': String(this.lang),
-   }
-	});
+  postParty(id, xuid, sessionName) {
+  	if (!id) throw new Error('Provide a sessionid, If using this in your application first call "getParty()" to get a list of sessions (usually only 1) then call this endpoint to invite players to join the session. SessionName below is a value returned from getParty()');
+  	if (!xuid) throw new Error('Provide a xuid');
+  	return this._post(`https://xbl.io/api/v2//party/invite/${id}`, {
+  		xuid, sessionName
+  	});
+  }
+  
+  // Requester
+  
+  get _headers() {
+  	return {
+  		'X-Authorization': String(this.apitoken),
+  		'X-Contract': String(this.apptoken),
+  		"Accept": ['application/json', 'application/xml'],
+  		'Accept-Language': String(this.lang)
+  	};
+  }
+  
+  _get(url) {
+  	return fetch(url, {
+		  method: 'get',
+	  	headers: this._headers
+	  });
+  }
 
-}
+  _post(url, data) {
+  	return fetch(url, {
+	  	method: 'post',
+	  	body: JSON.stringify(data),
+	  	headers: this._headers
+  	});
+  }
 }
