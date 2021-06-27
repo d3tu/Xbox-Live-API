@@ -161,7 +161,21 @@ async removeFriend(xuid) {
 		}
 	}
 	
-	async achievimentsPlayer(xuid) {
+	async getParty() {
+		
+		return await n(`https://xbl.io/api/v2/party`, {
+			method: 'get',
+			headers: {
+				'X-Authorization': String(this.apitoken),
+				'X-Contract': String(this.apptoken),
+				"Accept": ['application/json', 'application/xml'],
+				'Accept-Language': String(this.lang)
+			}
+			});
+	}
+	
+	
+async achievimentsPlayer(xuid) {
 		if(!xuid) throw new Error('Provide a xuid')
 		
 		return await n(`https://xbl.io/api/v2/achieviments/player/${xuid}`, {
@@ -193,7 +207,7 @@ async removeFriend(xuid) {
 	}
 	async postConversations(number, string) {
 	if(!number && string) throw new Error('Provide xuid and a message')
-n('https://xbl.io/api/v2/conversations', {
+return await n('https://xbl.io/api/v2/conversations', {
    method: 'post',
    body: `{"xuid": "${number}", "message": "${string}"}`,
    headers: {
@@ -205,5 +219,22 @@ n('https://xbl.io/api/v2/conversations', {
 });
 }
 
+async postParty(id, xuid, name) {
 
+	if(!id) throw new Error('Provide a sessionid, If using this in your application first call "getParty()" to get a list of sessions (usually only 1) then call this endpoint to invite players to join the session. SessionName below is a value returned from getParty()')
+	
+	if(!xuid) throw new Error('Provide a xuid')
+
+	return await n(`https://xbl.io/api/v2//party/invite/${id}`, {
+		method: 'post',
+   body: `{"xuid": "${xuid}", "sessionName": "${name}"}`,
+   headers: {
+        "x-Authorization": String(this.apitoken),
+        'x-Contract': String(this.apptoken),
+        'Accept': ['application/json', 'application/xml'],
+        'Accept-Language': String(this.lang),
+   }
+	});
+
+}
 }
